@@ -1,9 +1,5 @@
 # Naomi Arakaki · Portfólio
 
-Este é o portfólio pessoal de Naomi Arakaki. Ele foi feito como uma **Single Page Application (SPA)** em um único arquivo HTML, sem dependências nem etapa de build.
-
-O objetivo é mostrar experiência com **código, dados e IA aplicada** para posições de **desenvolvimento de IA** e de **Product Manager que usa IA para gerar resultado**.
-
 ---
 
 ## Estrutura da página
