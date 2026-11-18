@@ -6,23 +6,6 @@ O objetivo é mostrar experiência com **código, dados e IA aplicada** para pos
 
 ---
 
-## Como executar
-
-O portfólio é um arquivo estático. Para ver a página, basta abri-la no navegador:
-
-```bash
-# Windows
-start "Naomi Arakaki · Portfólio.html"
-
-# ou sirva localmente (recomendado para testar o roteamento por hash)
-python -m http.server 8000 --bind 127.0.0.1
-# acesse http://127.0.0.1:8000/Naomi%20Arakaki%20·%20Portfólio.html
-```
-
-> Para publicar, renomeie o arquivo para `index.html` e suba no GitHub Pages, Netlify ou Vercel. A página não usa nenhum recurso externo.
-
----
-
 ## Estrutura da página
 
 | Seção | Âncora | Conteúdo |
