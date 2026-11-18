@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Naomi Arakaki · IA aplicada, dados e produto</title>
+<meta name="description" content="Portfólio de Naomi Arakaki: automação com IA, agentes LLM, engenharia de dados e produto orientado a resultado.">
+<style>
+/* ===== Estética: grid suíço + dados — cinza frio, preto, azul elétrico e lima ===== */
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#0b0b0c;--bg2:#141416;--fg:#f1f1ee;--mut:#8d8f94;--bd:#f1f1ee;--ln:rgba(241,241,238,.07);--ac:#d4ff3a;--ac2:#6b6bff;--ok:#d4ff3a;--btn:#f1f1ee;--btnfg:#0b0b0c;--hl:#d4ff3a;--hlfg:#0b0b0c}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e9ebee;--bg2:#f6f7f9;--fg:#0b0b0c;--mut:#5a5d63;--bd:#0b0b0c;--ln:rgba(11,11,12,.07);--ac:#2b2bff;--ac2:#2b2bff;--ok:#1f9d55;--btn:#0b0b0c;--btnfg:#e9ebee;--hl:#d4ff3a;--hlfg:#0b0b0c}}
+:root[data-theme="light"]{--bg:#e9ebee;--bg2:#f6f7f9;--fg:#0b0b0c;--mut:#5a5d63;--bd:#0b0b0c;--ln:rgba(11,11,12,.07);--ac:#2b2bff;--ac2:#2b2bff;--ok:#1f9d55;--btn:#0b0b0c;--btnfg:#e9ebee;--hl:#d4ff3a;--hlfg:#0b0b0c}
+*,*:before,*:after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--fg);font:15.5px/1.6 "Helvetica Neue","Arial Nova",Arial,system-ui,sans-serif;
+background-image:linear-gradient(90deg,var(--ln) 1px,transparent 1px);background-size:calc((min(100vw,1168px) - 48px)/12) 100%;background-position:center top}
+h1,h2,h3,.kpi b,dialog .hd h3,.logo{font-family:"Helvetica Neue","Arial Nova",Arial,sans-serif;font-weight:800}
+.mono,.eyebrow,.tag,.chip,.flt button,.job .dt,dialog h4,footer,.term,.btn{font-family:"JetBrains Mono","Cascadia Mono",ui-monospace,Consolas,monospace}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--hl);color:var(--hlfg)}
+.w{max-width:1168px;margin:0 auto;padding:0 24px}
+main{counter-reset:sec}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:2px solid var(--bd)}
+nav{display:flex;align-items:stretch;gap:0;height:58px}
+.logo{display:flex;align-items:center;gap:12px;font-size:15px;letter-spacing:.02em;text-transform:uppercase;padding-right:20px;border-right:2px solid var(--bd)}
+.logo i{width:30px;height:30px;background:var(--hl);color:var(--hlfg);display:grid;place-items:center;font:800 12px "JetBrains Mono",Consolas,monospace;font-style:normal}
+nav .l{display:flex;margin-left:0;font:500 12.5px "JetBrains Mono",Consolas,monospace;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+nav .l a{display:flex;align-items:center;padding:0 16px;border-right:1px solid var(--ln);transition:background .15s,color .15s}
+nav .l a:hover{color:var(--fg);background:var(--bg2)}
+nav .l a.on{color:var(--hlfg);background:var(--hl)}
+nav .r{margin-left:auto;display:flex;gap:10px;align-items:center}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:0;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;border:2px solid var(--bd);cursor:pointer;background:transparent;color:var(--fg);transition:background .12s,color .12s}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.btn.p{background:var(--btn);color:var(--btnfg);border-color:var(--btn)}
+.btn.p:hover{background:var(--hl);color:var(--hlfg);border-color:var(--hl)}
+.btn.g{background:var(--hl);color:var(--hlfg);border-color:var(--hl)}
+.btn.g:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.sm{padding:7px 12px;font-size:12px}
+
+/* hero */
+.hero{position:relative;padding:72px 0 64px;border-bottom:2px solid var(--bd)}
+.hero>.w{position:relative;display:grid;grid-template-columns:1.1fr 1fr;column-gap:48px;align-items:start}
+.hero>.w>*{grid-column:1}
+.hero h1{grid-column:1 / -1;grid-row:1}
+.hero .lead{grid-row:2}
+.hero .cta{grid-row:3}
+.hero .term{grid-column:2;grid-row:2 / span 2;margin-top:0}
+.tag{display:inline-flex;gap:10px;align-items:center;justify-self:start;border:2px solid var(--bd);padding:5px 12px;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.tag b{width:9px;height:9px;background:var(--ok);animation:blink 1.1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+h1{font-size:clamp(36px,6.4vw,84px);line-height:1.12;letter-spacing:-.03em;margin:8px 0 40px;text-transform:uppercase;overflow-wrap:break-word;hyphens:manual}
+.gr{background:linear-gradient(transparent 8%,var(--hl) 8%,var(--hl) 92%,transparent 92%);color:var(--hlfg);padding:0 .08em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.lead{font-size:clamp(16px,1.6vw,18.5px);color:var(--mut);max-width:560px;margin:0 0 30px}
+.cta{display:flex;gap:0;flex-wrap:wrap}
+.cta .btn+.btn{border-left:0}
+.term{background:#0b0b0c;color:#e8e8e4;border:2px solid var(--bd);border-radius:0;overflow:hidden}
+.term .bar{display:flex;gap:10px;padding:9px 14px;background:var(--ac2);color:#fff;align-items:center;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+.term .bar i{display:none}
+.term .bar span{margin-left:0!important}
+.term .bar:after{content:"● LIVE";margin-left:auto;color:#d4ff3a}
+.term pre{margin:0;padding:20px;overflow-x:auto;font:13px/1.8 "JetBrains Mono","Cascadia Mono",ui-monospace,Consolas,monospace}
+.term .k{color:#9d9dff}.term .s{color:#d4ff3a}.term .c{color:#5f6268}
+.k{color:var(--ac2)}.s{color:var(--ac)}.c{color:var(--mut)}
+
+/* ticker */
+.ticker{overflow:hidden;border-bottom:2px solid var(--bd);background:var(--fg);color:var(--bg)}
+.ticker .trk{display:flex;width:max-content;animation:tick 38s linear infinite}
+.ticker span{font:600 13px "JetBrains Mono",Consolas,monospace;text-transform:uppercase;letter-spacing:.06em;padding:12px 22px;white-space:nowrap}
+.ticker span:after{content:"✳";margin-left:44px;color:var(--hl)}
+:root[data-theme="light"] .ticker span:after{color:#2b2bff}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:88px 0;border-bottom:2px solid var(--bd)}
+section+section{border-top:0}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--fg);font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.eyebrow:before{counter-increment:sec;content:counter(sec,decimal-leading-zero);background:var(--fg);color:var(--bg);padding:3px 8px}
+.eyebrow:after{content:"";flex:1;height:2px;background:var(--bd)}
+h2{font-size:clamp(30px,4.6vw,56px);line-height:1.1;letter-spacing:-.025em;margin:28px 0 16px;max-width:900px}
+.sub{color:var(--mut);max-width:640px;margin:0 0 44px;font-size:16.5px}
+
+/* grid + cards */
+.grid{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));border-top:2px solid var(--bd);border-left:2px solid var(--bd)}
+.card{background:var(--bg2);border-right:2px solid var(--bd);border-bottom:2px solid var(--bd);border-radius:0;padding:28px;display:flex;flex-direction:column;position:relative;transition:background .15s}
+.card:hover{background:var(--bg)}
+.card:after{content:"";position:absolute;left:0;top:0;height:4px;width:0;background:var(--ac);transition:width .25s}
+.card:hover:after{width:100%}
+.card h3{margin:0 0 10px;font-size:19px;letter-spacing:-.02em;line-height:1.2}
+.card p{margin:0;color:var(--mut);font-size:14.5px}
+.ic{font-size:22px;width:44px;height:44px;display:grid;place-items:center;border:2px solid var(--bd);margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chip{font-size:11.5px;padding:3px 8px;border:1px solid var(--mut);color:var(--fg);text-transform:uppercase;letter-spacing:.03em}
+
+/* KPIs */
+.kpis{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border:2px solid var(--bd)}
+.kpi{padding:22px 20px;border-right:2px solid var(--bd);background:var(--bg2)}
+.kpi:last-child{border-right:0}
+.kpi b{display:block;font-size:48px;line-height:1;letter-spacing:-.05em;margin-bottom:10px}
+.kpi b.gr{background:none;color:var(--fg);padding:0}
+.kpi:first-child{background:var(--hl)}
+.kpi:first-child b.gr,.kpi:first-child span{color:var(--hlfg)}
+.kpi span{color:var(--mut);font-size:13px;display:block}
+
+/* filtros + cases */
+.flt{display:flex;flex-wrap:wrap;gap:0;margin:0 0 28px}
+.flt button{font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:9px 14px;border:2px solid var(--bd);margin:0 -2px -2px 0;background:transparent;color:var(--fg);cursor:pointer;transition:background .12s}
+.flt button:hover{background:var(--bg2)}
+.flt button.on{background:var(--fg);color:var(--bg)}
+.case{cursor:pointer}
+.case:focus-visible{outline:3px solid var(--ac);outline-offset:-3px}
+.case .meta{margin-top:auto;padding-top:20px;display:flex;gap:14px;align-items:center;font:12px "JetBrains Mono",Consolas,monospace;text-transform:uppercase;color:var(--mut);flex-wrap:wrap}
+.case .more{margin-left:auto;color:var(--fg);font-weight:700;padding:4px 8px;border:2px solid var(--bd);transition:background .12s}
+.case:hover .more{background:var(--hl);color:var(--hlfg);border-color:var(--hl)}
+.dot{width:9px;height:9px;display:inline-block;margin-right:6px}
+.hide{display:none!important}
+
+/* modal */
+dialog{max-width:880px;width:calc(100% - 32px);max-height:90vh;border:2px solid var(--bd);border-radius:0;background:var(--bg);color:var(--fg);padding:0}
+dialog::backdrop{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:grayscale(1) blur(2px)}
+dialog .hd{position:sticky;top:0;z-index:1;background:var(--fg);color:var(--bg);padding:16px 22px;display:flex;gap:12px;align-items:center}
+dialog .hd h3{margin:0;font-size:22px;letter-spacing:-.03em;text-transform:uppercase}
+dialog .hd .x{margin-left:auto;border-color:var(--bg);color:var(--bg)}
+dialog .hd .x:hover{background:var(--hl);color:var(--hlfg);border-color:var(--hl)}
+dialog .bd{padding:8px 26px 32px;font-size:15px}
+dialog h4{display:flex;align-items:center;gap:10px;margin:32px 0 10px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg)}
+dialog h4:before{content:"";width:10px;height:10px;background:var(--ac)}
+dialog h4:after{content:"";flex:1;height:1px;background:var(--mut);opacity:.5}
+dialog p,dialog li{color:var(--mut)}
+dialog li{margin:5px 0}
+dialog ul,dialog ol{padding-left:20px;margin:6px 0}
+dialog li::marker{color:var(--fg);font-weight:700}
+dialog code{font:12.5px "JetBrains Mono",Consolas,monospace;background:var(--bg2);border:1px solid var(--mut);padding:0 5px;color:var(--fg)}
+dialog pre{background:#0b0b0c;color:#e8e8e4;border:2px solid var(--bd);padding:16px;overflow-x:auto;font:12.5px/1.7 "JetBrains Mono",Consolas,monospace}
+dialog pre .c{color:#5f6268}
+dialog strong{color:var(--fg)}
+dialog .kpis{margin:22px 0 10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+dialog .kpi{padding:16px}
+dialog .kpi b{font-size:34px;margin-bottom:6px}
+dialog .kpi span{font-size:12.5px}
+dialog .steps{margin-top:14px}
+dialog .steps .card{padding:18px}
+dialog .steps .card h3{font-size:15.5px}
+dialog .steps .card p{font-size:13.5px}
+
+/* timeline */
+.tl{display:grid;gap:0;border-top:2px solid var(--bd)}
+.job{display:grid;grid-template-columns:200px 1fr;gap:4px 32px;padding:28px 0;border-bottom:1px solid var(--mut)}
+.job:last-child{border-bottom:0}
+.job .top{display:contents}
+.job .top>div:first-child{grid-column:2;grid-row:1}
+.job .dt{grid-column:1;grid-row:1 / span 3;color:var(--fg);font-size:13px;text-transform:uppercase;letter-spacing:.03em;padding-top:4px}
+.job h3{margin:0;font-size:22px;letter-spacing:-.025em}
+.job .co{font:600 12.5px "JetBrains Mono",Consolas,monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--ac2);margin-top:4px}
+:root:not([data-theme="light"]) .job .co{color:var(--ac)}
+.job p{grid-column:2;color:var(--mut);margin:10px 0 0;font-size:15px;max-width:760px}
+.badge{font:700 10.5px "JetBrains Mono",Consolas,monospace;padding:3px 7px;background:var(--hl);color:var(--hlfg);margin-left:10px;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em}
+
+/* steps */
+.steps{counter-reset:s;display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:2px solid var(--bd);border-left:2px solid var(--bd)}
+.steps .card:before{counter-increment:s;content:"STEP_0" counter(s);font:700 11.5px "JetBrains Mono",Consolas,monospace;letter-spacing:.06em;color:var(--fg);background:var(--hl);color:var(--hlfg);align-self:flex-start;padding:2px 6px;margin-bottom:12px}
+
+/* contato */
+.cont{text-align:left}
+.cont h2{font-size:clamp(38px,6.4vw,80px);text-transform:uppercase}
+.cont .sub{margin:0!important}
+.cont .grid{margin:44px 0 0}
+.cont .card{flex-direction:row;align-items:center;gap:16px}
+.cont .card .ic{margin:0}
+.cont .card h3{margin:0;font-size:13px;font-family:"JetBrains Mono",Consolas,monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:600}
+.cont .card b{word-break:break-word;font:700 15px "Helvetica Neue",Arial,sans-serif;margin-left:auto}
+.cont .card:hover{background:var(--hl)}
+.cont .card:hover h3,.cont .card:hover b{color:var(--hlfg)}
+.cont .card:hover .ic{border-color:var(--hlfg)}
+.note{font:12px "JetBrains Mono",Consolas,monospace;color:var(--mut);margin-top:12px}
+footer{padding:22px 0;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+footer .w{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media(max-width:960px){nav .l{display:none}.hero>.w{grid-template-columns:1fr}.hero .term{grid-column:1;grid-row:4;margin-top:36px}.hero{padding:48px 0}section{padding:60px 0}.job{grid-template-columns:1fr}.job .dt,.job .top>div:first-child,.job p{grid-column:1;grid-row:auto}.kpi{border-right:0;border-bottom:2px solid var(--bd)}.kpi:last-child{border-bottom:0}.cont .card{flex-wrap:wrap}.cont .card b{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="w"><nav>
+  <a class="logo" href="#topo"><i>NA</i> Naomi Arakaki</a>
+  <div class="l">
+    <a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="#skills">Habilidades</a><a href="#exp">Trajetória</a><a href="#contato">Contato</a>
+  </div>
+  <div class="r">
+    <button class="btn sm" id="theme" aria-label="Alternar tema">◐</button>
+    <a class="btn sm p" href="#contato">Fale comigo</a>
+  </div>
+</nav></div></header>
+
+<main id="topo">
+<div class="hero"><div class="w">
+  <h1>Do processo manual<br>ao resultado <span class="gr">automatizado com IA.</span></h1>
+  <p class="lead">Sou Naomi, estudante de Sistemas de Informação e BI Intern na Amazon. Eu transformo processos operacionais em sistemas: desenho a regra de decisão, escrevo o código, coloco agentes de LLM onde eles ajudam e entrego junto a métrica que mostra se funcionou.</p>
+  <div class="cta">
+    <a class="btn g" href="#projetos">Ver projetos →</a>
+    <a class="btn" href="https://www.linkedin.com/in/naomi-arakaki/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/Nana228228" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <div class="term">
+    <div class="bar"><i></i><i></i><i></i><span>~/naomi/pipeline.py</span></div>
+<pre><span class="k">def</span> <span class="s">resolver</span>(problema):
+    intake   = estruturar(problema)        <span class="c"># dado completo na origem</span>
+    regras   = explicitar_gates(intake)    <span class="c"># decisão determinística</span>
+    sistema  = automatizar(regras)         <span class="c"># Python · SQL · cloud</span>
+    sistema += llm(onde=<span class="s">"texto livre"</span>,
+                   guardrails=<span class="k">True</span>)     <span class="c"># IA com verificação</span>
+    <span class="k">return</span> medir(sistema, kpi=<span class="s">"reabertura"</span>) <span class="c"># ✔ resultado, não opinião</span></pre>
+  </div>
+</div></div>
+
+<div class="ticker" aria-hidden="true"><div class="trk"><span>IA aplicada</span><span>Agentes LLM</span><span>Python</span><span>SQL</span><span>AWS Lambda</span><span>Prompt engineering</span><span>Automação ponta a ponta</span><span>Dados &amp; Estatística</span><span>Produto orientado a resultado</span><span>Observabilidade</span><span>IA aplicada</span><span>Agentes LLM</span><span>Python</span><span>SQL</span><span>AWS Lambda</span><span>Prompt engineering</span><span>Automação ponta a ponta</span><span>Dados &amp; Estatística</span><span>Produto orientado a resultado</span><span>Observabilidade</span></div></div>
+
+<section id="sobre"><div class="w">
+  <span class="eyebrow">Sobre mim</span>
+  <h2>Código, dados e produto no mesmo fluxo</h2>
+  <p class="sub">Trabalho na interseção entre engenharia e negócio. Começo pelo problema e pelo processo, e só depois escolho a tecnologia. Já entreguei automações de ponta a ponta em produção, configurei agentes de LLM com critérios de qualidade testáveis e construí pipelines de dados e modelos estatísticos para pesquisa científica.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">🤖</div><h3>IA aplicada</h3><p>Agentes de LLM com prompts em camadas, guardrails, autoverificação antes de responder e mitigação de alucinação. A IA entra onde há texto livre, e a regra determinística cuida do resto.</p></div>
+    <div class="card"><div class="ic">⚙️</div><h3>Engenharia e automação</h3><p>Python, SQL e serviços serverless na nuvem. Faço pipelines idempotentes e seguros por padrão (dry-run, verificação antes de cada escrita) com observabilidade desde o primeiro dia.</p></div>
+    <div class="card"><div class="ic">📈</div><h3>Produto e estratégia</h3><p>Redesenho de processos, requisitos de produto (BRD), análise de P&amp;L unitário, benchmark competitivo e KPIs que orientam decisões de pricing.</p></div>
+  </div>
+</div></section>
+
+<section id="projetos"><div class="w">
+  <span class="eyebrow">Projetos</span>
+  <h2>Cases selecionados</h2>
+  <p class="sub">Clique em um case para ver o problema, a solução, as decisões técnicas e o que aprendi. Nomes de sistemas, programas, parceiros e valores foram anonimizados.</p>
+  <div class="flt" id="flt">
+    <button class="on" data-f="all">Todos</button>
+    <button data-f="ia">IA &amp; LLM</button>
+    <button data-f="eng">Engenharia</button>
+    <button data-f="dados">Dados &amp; Estatística</button>
+    <button data-f="prod">Produto &amp; Estratégia</button>
+  </div>
+  <div class="grid" id="cases">
+    <article class="card case" data-tags="eng prod ia" data-case="c1" tabindex="0">
+      <div class="ic">🎫</div><h3>Automação de disputas de cobranças</h3>
+      <p>Redesenho de processo e pipeline serverless que tria, diagnostica, responde e reembolsa reclamações de sellers sem intervenção humana.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">AWS Lambda</span><span class="chip">SQL / Redshift</span><span class="chip">DynamoDB</span><span class="chip">CloudWatch</span></div>
+      <div class="meta"><span><i class="dot" style="background:var(--ok)"></i>Em produção</span><span class="more">Ver case →</span></div>
+    </article>
+    <article class="card case" data-tags="ia" data-case="c2" tabindex="0">
+      <div class="ic">🧠</div><h3>Agente de inteligência de mercado</h3>
+      <p>Agente de LLM que transforma uma newsletter interna em briefings semanais com dados rastreáveis, atribuição validada e autoverificação.</p>
+      <div class="chips"><span class="chip">Prompt engineering</span><span class="chip">Orquestração</span><span class="chip">Chain-of-verification</span><span class="chip">LLM eval</span></div>
+      <div class="meta"><span><i class="dot" style="background:var(--ac)"></i>Agente LLM</span><span class="more">Ver case →</span></div>
+    </article>
+    <article class="card case" data-tags="dados eng" data-case="c3" tabindex="0">
+      <div class="ic">🧩</div><h3>Process data: estratégias de resolução de problemas</h3>
+      <p>Pipeline de dados em Python e análise em R de sequências de movimentos de um teste cognitivo, usando LCS, modelos mistos e n-gramas.</p>
+      <div class="chips"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">Typer</span><span class="chip">R · lme4</span><span class="chip">Text mining</span></div>
+      <div class="meta"><span><i class="dot" style="background:#3572A5"></i>Pesquisa científica</span><span class="more">Ver case →</span></div>
+    </article>
+    <article class="card case" data-tags="prod dados" data-case="c4" tabindex="0">
+      <div class="ic">💹</div><h3>Pricing e requisitos de produto</h3>
+      <p>Análises para documentos estratégicos de tarifas logísticas: P&amp;L unitário por faixa de preço, gap competitivo e BRD de novas tarifas.</p>
+      <div class="chips"><span class="chip">SQL</span><span class="chip">P&amp;L</span><span class="chip">Benchmark</span><span class="chip">BRD</span><span class="chip">Escrita estratégica</span></div>
+      <div class="meta"><span><i class="dot" style="background:var(--ac2)"></i>Estratégia</span><span class="more">Ver case →</span></div>
+    </article>
+  </div>
+</div></section>
+
+<section id="skills"><div class="w">
+  <span class="eyebrow">Habilidades</span>
+  <h2>Ferramentas do meu fluxo de trabalho</h2>
+  <p class="sub">O que uso para ir da pergunta de negócio ao sistema em produção.</p>
+  <div class="grid">
+    <div class="card"><h3>IA &amp; LLM</h3><div class="chips"><span class="chip">Prompt engineering</span><span class="chip">Agentes</span><span class="chip">Guardrails</span><span class="chip">Avaliação de LLM</span><span class="chip">RAG / grounding</span><span class="chip">Claude Code</span></div></div>
+    <div class="card"><h3>Linguagens</h3><div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">R</span><span class="chip">HTML / CSS</span><span class="chip">Excel avançado</span><span class="chip">Power BI</span></div></div>
+    <div class="card"><h3>Dados &amp; Estatística</h3><div class="chips"><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">tidyverse</span><span class="chip">Modelos mistos</span><span class="chip">χ²</span><span class="chip">LCS / n-gramas</span></div></div>
+    <div class="card"><h3>Cloud &amp; DevOps</h3><div class="chips"><span class="chip">AWS Lambda</span><span class="chip">S3</span><span class="chip">DynamoDB</span><span class="chip">SES</span><span class="chip">SAM</span><span class="chip">Redshift</span></div></div>
+    <div class="card"><h3>Observabilidade</h3><div class="chips"><span class="chip">CloudWatch EMF</span><span class="chip">Alarmes</span><span class="chip">Dashboards</span><span class="chip">KPIs de qualidade</span></div></div>
+    <div class="card"><h3>Produto</h3><div class="chips"><span class="chip">Redesenho de processo</span><span class="chip">BRD</span><span class="chip">P&amp;L unitário</span><span class="chip">Benchmark</span><span class="chip">Comunicação de lançamento</span></div></div>
+  </div>
+</div></section>
+
+<section id="exp"><div class="w">
+  <span class="eyebrow">Trajetória</span>
+  <h2>Minha trajetória</h2>
+  <p class="sub">De inteligência de mercado a automação com IA em produção.</p>
+  <div class="tl">
+    <div class="job"><div class="top"><div><h3>BI Intern · Tarifas de Marketplace <span class="badge">Atual</span></h3><div class="co">Amazon</div></div><div class="dt">set 2025 – atual</div></div>
+      <p>Automação de ponta a ponta da resolução de tickets de suporte com AWS Lambda, Python e NLP, incluindo redesenho do intake, triagem por gates, diagnóstico em SQL, ledger de reembolso e monitoramento de qualidade. Configuração de agentes de IA com engenharia de contexto para otimizar respostas e fluxos de trabalho.</p>
+      <p>Dashboards de BI ligados diretamente a queries do data warehouse, pipelines de relatórios automatizados da extração à entrega e scripts em Python para classificação automática de categorias de produto. Análise de dados transacionais em larga escala com SQL, apoio a documentos estratégicos de pricing e monitoramento contínuo de inteligência competitiva.</p></div>
+    <div class="job"><div class="top"><div><h3>Market Intelligence Intern</h3><div class="co">Circana</div></div><div class="dt">mai 2024 – set 2025</div></div>
+      <p>Geração de insights a partir de múltiplas fontes de dados. Construção de relatórios, dashboards e automações em Excel e Power BI, com entregas precisas e no prazo. Aplicação de conceitos de governança e ciclo de vida de dados.</p></div>
+    <div class="job"><div class="top"><div><h3>Pesquisa em Process Data e Psicometria</h3><div class="co">Projeto acadêmico</div></div><div class="dt">Paralelo</div></div>
+      <p>Pipeline de dados reprodutível em Python e análises em R (LCS, modelos lineares mistos e mineração de n-gramas) sobre dados de processo de um teste cognitivo computadorizado, com resultados para publicação.</p></div>
+  </div>
+</div></section>
+
+<section id="formacao"><div class="w">
+  <span class="eyebrow">Formação</span>
+  <h2>Educação e certificados</h2>
+  <div class="grid" style="margin-top:32px">
+    <div class="card"><div class="ic">🎓</div><h3>Bacharelado em Sistemas de Informação</h3><p>Universidade Presbiteriana Mackenzie · fev 2024 – nov 2027 (previsão)</p></div>
+    <div class="card"><div class="ic">☁️</div><h3>AWS Academy Graduate: Cloud Foundations</h3><p>Training Badge · Amazon Web Services</p></div>
+    <div class="card"><div class="ic">🗣️</div><h3>Idiomas</h3><p>Inglês e espanhol em nível profissional completo.</p></div>
+  </div>
+</div></section>
+
+<section id="contato" class="cont"><div class="w">
+  <span class="eyebrow">Contato</span>
+  <h2>Tem um processo que <span class="gr">parece automatizável?</span></h2>
+  <p class="sub" style="margin:0 auto">Traga o processo e a gente mapeia junto, mesmo que a resposta seja uma mudança de processo e não código.</p>
+  <div class="grid">
+    <a class="card" href="mailto:arakakinaomi228@gmail.com"><div class="ic">✉️</div><h3>Email</h3><b style="font-size:14px">arakakinaomi228@gmail.com</b></a>
+    <a class="card" href="https://www.linkedin.com/in/naomi-arakaki/" target="_blank" rel="noopener"><div class="ic">💼</div><h3>LinkedIn</h3><b>naomi-arakaki</b></a>
+    <a class="card" href="https://github.com/Nana228228" target="_blank" rel="noopener"><div class="ic">🐙</div><h3>GitHub</h3><b>Nana228228</b></a>
+  </div>
+</div></section>
+</main>
+
+<!-- ===== Detalhe dos cases (SPA: abre via #case/<id>) ===== -->
+<dialog id="dlg" aria-labelledby="dlg-t"><div class="hd"><h3 id="dlg-t"></h3><button class="btn sm x" id="dlg-x" aria-label="Fechar">✕</button></div><div class="bd" id="dlg-b"></div></dialog>
+
+<template id="c1">
+  <div class="kpis">
+    <div class="kpi"><b class="gr">~80%</b><span>dos tickets resolvidos pela automação, de ponta a ponta</span></div>
+    <div class="kpi"><b class="gr">~6 h</b><span>de especialista devolvidas ao time por semana</span></div>
+    <div class="kpi"><b class="gr">0</b><span>reembolsos em duplicidade, graças ao ledger por diferença</span></div>
+    <div class="kpi"><b class="gr">30 min</b><span>entre cada rodada de triagem automática, que antes era feita à mão</span></div>
+  </div>
+  <p class="note">Medido no data warehouse de tickets ao longo de cerca de 5 meses de operação. Valores arredondados por confidencialidade.</p>
+  <h4>Contexto</h4>
+  <p>Sellers inscritos em um programa de incentivo que isenta tarifas logísticas abriam tickets alegando cobranças indevidas. Cada caso exigia que um especialista fizesse à mão o mesmo trabalho: identificar o seller, rodar várias queries SQL sobre transações e janelas da campanha, montar um arquivo de evidência, calcular o valor, responder e controlar o que já tinha sido reembolsado.</p>
+  <h4>O problema real</h4>
+  <p>A automação não era a única lacuna. O processo vazava em quatro pontos:</p>
+  <ul><li>o intake era texto livre e chegava sem ID, sem campanha e sem evidência;</li><li>muitos tickets perguntavam algo que o SOP já respondia;</li><li>os reembolsos ficavam espalhados em planilhas, sem uma fonte única de verdade;</li><li>não havia como medir a qualidade das resoluções.</li></ul>
+  <h4>Solução</h4>
+  <ol>
+    <li><strong>Intake estruturado.</strong> Criei uma nova categoria de ticket com template e campos obrigatórios. A categoria antiga foi descontinuada, e uma automação redireciona as reaberturas que ainda chegam por ela.</li>
+    <li><strong>Triagem por gates (a cada 30 min).</strong> Seis gates em sequência: escopo, template, ID, campanha, casos já cobertos pelo SOP, evidência e pedidos de exceção. O que o regulamento já responde é resolvido na hora, com a causa raiz registrada.</li>
+    <li><strong>Diagnóstico com evidência.</strong> Um job SQL diário recalcula as tarifas por seller dentro da janela da campanha e separa a parcela fechada da parcela ainda aberta. O resultado aciona a função que anexa a evidência e responde com o valor exato.</li>
+    <li><strong>Ledger de reembolso.</strong> O pagamento é calculado pela diferença em relação ao que o seller já recebeu. Reprocessar um mês nunca paga em dobro. No fim do mês, o consolidado é enviado automaticamente ao time que executa os reembolsos.</li>
+    <li><strong>Monitoramento em duas camadas.</strong> Métricas, alarmes e dashboard respondem "algo quebrou?" em minutos. Um job analítico responde "o processo está certo?" com funil, tempo de resolução e taxa de reabertura em 14 dias por causa raiz.</li>
+  </ol>
+<pre>ticket ─► [G0 escopo] ─► [G1 template] ─► [G2 ID] ─► [G3 campanha]
+        ─► [G3b SOP] ─► [G4 evidência] ─► [G5 exceção]
+              │ resolvido pelo SOP          │ precisa de dado
+              ▼                             ▼
+        resposta padrão + causa raiz    job SQL ─► S3 ─► Lambda
+                                        anexa evidência ─► responde ─► ledger</pre>
+  <h4>Decisões de engenharia</h4>
+  <ul>
+    <li><strong>Seguro por padrão:</strong> dry-run primeiro, escopo reverificado antes de cada escrita e tickets reabertos nunca tocados automaticamente.</li>
+    <li><strong>Ordem de escrita:</strong> a evidência é anexada antes do comentário. Se o anexo falhar, nada é publicado.</li>
+    <li><strong>Idempotência:</strong> o ledger por diferença torna qualquer reexecução segura.</li>
+    <li><strong>Stack:</strong> Python 3.12, AWS Lambda, S3, DynamoDB, SES, CloudWatch EMF, SAM e SQL em Redshift.</li>
+  </ul>
+  <h4>Método reutilizável</h4>
+  <p>O padrão que funcionou aqui se aplica a qualquer fila em que a resposta já existe, seja num SOP, num regulamento ou numa tabela que alguém consulta manualmente.</p>
+  <div class="steps">
+    <div class="card"><h3>Estruture a entrada</h3><p>Primeiro conserte o processo. Um template com campos obrigatórios gerou mais ganho do que qualquer código que tentasse adivinhar o que o texto livre quer dizer.</p></div>
+    <div class="card"><h3>Escreva as regras como gates</h3><p>Cada decisão vira um gate explícito e auditável. A mesma entrada sempre leva à mesma decisão.</p></div>
+    <div class="card"><h3>Automatize só o que já está decidido</h3><p>O código executa as regras, e o LLM entra onde há ambiguidade real, com guardrails e revisão humana enquanto amadurece.</p></div>
+    <div class="card"><h3>Entregue a métrica junto</h3><p>Taxa de reabertura por causa raiz desde o primeiro dia. Sem ela, dizer que "funciona" seria só opinião.</p></div>
+  </div>
+  <h4>Aprendizados</h4>
+  <ul><li>Seja dono do ciclo inteiro. Depender de outro time para validar resoluções era a maior fonte de atraso.</li><li>Avise que a resposta automática é nova. Isso permitiu pegar falhas dos gates cedo, antes de virarem reclamação de seller.</li></ul>
+  <h4>Próximos passos com IA</h4>
+  <ul><li>Um LLM com grounding apenas no regulamento, no FAQ e em tickets resolvidos para rascunhar respostas a perguntas em texto livre.</li><li>Classificação por IA do motivo de cada reabertura, para apontar direto o gate ou o SOP que precisa de ajuste.</li><li>Detecção proativa: rodar o diagnóstico em todos os sellers inscritos e reembolsar antes que eles percebam.</li><li>Parametrizar gates e regras para que novas campanhas entrem como configuração, não como projeto novo.</li></ul>
+</template>
+
+<template id="c2">
+  <h4>Contexto</h4>
+  <p>O time precisava acompanhar toda semana movimentos de concorrentes e do mercado (tarifas, comissões, logística e ações comerciais), publicados em uma newsletter interna extensa. A leitura e a síntese eram manuais e inconsistentes.</p>
+  <h4>Solução</h4>
+  <p>Configurei um agente de LLM que lê a fonte e entrega um briefing padronizado, organizado por tema estratégico. O design do agente cobre quatro competências:</p>
+  <ul>
+    <li><strong>Prompt engineering avançado:</strong> prompt em camadas com blocos nomeados e precedência explícita, cláusulas anti-degradação reaplicadas em todo turno, guardrails negativos precisos, desambiguação de termos e template de saída determinístico.</li>
+    <li><strong>Orquestração:</strong> fonte de dados isolada a um único espaço, fallback definido (o agente pausa e pede input em vez de improvisar), composição com uma segunda base de padrões de escrita e roteamento condicional entre seções do documento-fonte.</li>
+    <li><strong>Análise de dados com IA:</strong> limiares quantitativos de relevância, formatação rigorosa de números (K/M/B), síntese por tema em vez de por concorrente e atribuição validada pelo sujeito gramatical da frase.</li>
+    <li><strong>Avaliação de LLM:</strong> autoverificação obrigatória antes de responder (chain-of-verification) e critérios testáveis de rastreabilidade, atribuição e janela temporal. Não inventar URLs é critério explícito, e dado (com link) fica separado de inferência.</li>
+  </ul>
+<pre><span class="c"># trecho ilustrativo da estrutura do prompt</span>
+[PAPEL]        analista de inteligência de mercado
+[FONTE]        somente &lt;espaço autorizado&gt;; se ausente → pausar e pedir input
+[RELEVÂNCIA]   incluir apenas: mudança de comissão &gt; X%, ação comercial, logística
+[ATRIBUIÇÃO]   o concorrente é o sujeito gramatical do dado? senão → descartar
+[SAÍDA]        edição · resumo · temas → bullets quantitativos com link
+[SELF-CHECK]   todo número tem fonte? janela ≤ 7 dias? nenhuma URL inventada?</pre>
+  <h4>Por que importa</h4>
+  <p>Um agente confiável não depende de um prompt bonito. Ele depende de critérios de qualidade que se possam verificar. Tratei o agente como produto, com especificação, casos de falha e checagem de saída.</p>
+</template>
+
+<template id="c3">
+  <h4>Contexto</h4>
+  <p>Projeto de pesquisa com <em>process data</em> de um teste cognitivo computadorizado de planejamento (Torre de Londres, 19 itens). Cada tentativa gera metadados e uma sequência de movimentos, como <code>B3 R2 B2</code>. A pergunta era quais estratégias distinguem quem acerta de quem erra e como elas mudam com a idade.</p>
+  <h4>Pipeline de dados (Python)</h4>
+  <ul>
+    <li>Arquitetura em estágios <strong>raw → interim → processed</strong> (Cookiecutter Data Science), com cada estágio exposto como comando de CLI em Typer e idempotente.</li>
+    <li>Reshape de wide para long com <strong>vetorização tensorial em NumPy</strong> (<code>reshape</code> 3D + <code>np.repeat</code>), em O(N) e sem laços, tolerante a uma entrada que já esteja em formato long.</li>
+    <li>Sanitização <strong>sem perda de registros</strong>: durações impossíveis viram <code>NaN</code> e são registradas em log, o que evita viés de seleção por exclusão.</li>
+    <li>Internacionalização do esquema com <code>.map(dict).fillna(original)</code>, para que categorias não previstas não virem <code>NaN</code> silenciosamente.</li>
+  </ul>
+<pre>trials = values.reshape(n_part, n_blocos, 9).reshape(-1, 9)
+demo   = np.repeat(demo_values, n_blocos, axis=0)
+df     = pd.DataFrame(np.column_stack([demo, trials]))</pre>
+  <h4>Análise (R)</h4>
+  <ul>
+    <li><strong>LCS (programação dinâmica)</strong> entre a sequência observada e as soluções ótimas, com suporte a múltiplas referências por item. Duas métricas complementares: <em>similarity</em> (cobertura) e <em>efficiency</em> (economia de movimentos).</li>
+    <li><strong>Modelos lineares mistos</strong> com efeitos aleatórios cruzados <code>(1|participante) + (1|item)</code> para medidas repetidas, ajustados em versão global e em versão restrita aos itens de alta complexidade.</li>
+    <li><strong>Mineração de sequências</strong>: bigramas de movimentos testados com χ² 2×2 para encontrar padrões que discriminam acerto de erro, ou seja, text mining aplicado a comportamento.</li>
+  </ul>
+  <h4>Visão crítica</h4>
+  <p>Documentei as limitações e os próximos passos: gerar as soluções ótimas por BFS no espaço de estados, aplicar correção para múltiplas comparações (FDR), criar testes unitários com pytest, unificar a pipeline em uma única linguagem e discutir se métricas de razão podem ser tratadas como escala intervalar, à luz da teoria da medida.</p>
+  <h4>Ponte com IA</h4>
+  <p>Bigramas combinados com tempo de resposta formam atributos naturais para classificadores (random forest, XGBoost). É a mesma lógica de transformar comportamento em sinal que uso em produto.</p>
+</template>
+
+<template id="c4">
+  <h4>Contexto</h4>
+  <p>Participei de documentos estratégicos sobre tarifas logísticas de um marketplace: a evolução de um programa de incentivo tarifário e a proposta de novas tarifas por defeitos de envio. Os valores e os nomes estão omitidos por confidencialidade.</p>
+  <h4>O que construí</h4>
+  <ul>
+    <li><strong>P&amp;L unitário por faixa de preço</strong> (baixo, médio e alto ticket) em cada fase do programa, para mostrar onde o incentivo gera retorno e onde só subsidia.</li>
+    <li><strong>Mapa de gap tarifário</strong> contra o principal concorrente, em uma matriz de faixa de peso × faixa de preço.</li>
+    <li><strong>Árvore de inputs e outputs</strong> do programa: mecânica, critério de renovação e adoção, ligados a crescimento, rentabilidade e penetração de Ads.</li>
+    <li><strong>Benchmark de tarifas por defeitos</strong> de envio (no-show, reagendamento, preparo, divergência de quantidade), com franquias e tolerâncias do mercado.</li>
+    <li><strong>BRD</strong> com os requisitos de produto: atribuição de defeito por envio, janela de correção gratuita, motor de limiar e isenção, transparência de custo no momento do compromisso e fluxo de contestação.</li>
+  </ul>
+  <h4>Por que importa para AI Product</h4>
+  <p>Saber automatizar não basta. É preciso saber <strong>o que vale a pena</strong> automatizar e como medir. Esses documentos treinaram a parte de produto: ligar dado a decisão, escrever requisitos que engenharia consegue estimar e defender trade-offs com números.</p>
+</template>
+
+<footer><div class="w"><span>© 2026 Naomi Arakaki</span><span>IA aplicada · Dados · Produto — São Paulo, BR</span></div></footer>
+
+<script>
+(()=>{
+  const root=document.documentElement, KEY='theme';
+  const saved=localStorage.getItem(KEY); if(saved) root.dataset.theme=saved;
+  document.getElementById('theme').onclick=()=>{
+    const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+    root.dataset.theme=cur==='light'?'dark':'light'; localStorage.setItem(KEY,root.dataset.theme);
+  };
+
+  // filtros
+  const btns=[...document.querySelectorAll('#flt button')], cards=[...document.querySelectorAll('.case')];
+  btns.forEach(b=>b.onclick=()=>{
+    btns.forEach(x=>x.classList.toggle('on',x===b));
+    cards.forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&!c.dataset.tags.split(' ').includes(b.dataset.f)));
+  });
+
+  // roteamento de cases (#case/c1)
+  const dlg=document.getElementById('dlg'), t=document.getElementById('dlg-t'), body=document.getElementById('dlg-b');
+  const open=id=>{
+    const tpl=document.getElementById(id), card=document.querySelector(`[data-case="${id}"]`);
+    if(!tpl||!card) return;
+    t.textContent=card.querySelector('h3').textContent;
+    body.replaceChildren(tpl.content.cloneNode(true));
+    if(!dlg.open) dlg.showModal(); dlg.querySelector('.bd').scrollTop=0;
+  };
+  const route=()=>{const m=location.hash.match(/^#case\/(\w+)/); m?open(m[1]):dlg.open&&dlg.close();};
+  cards.forEach(c=>{
+    const go=()=>{location.hash='case/'+c.dataset.case};
+    c.onclick=go; c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
+  });
+  const close=()=>{dlg.close(); if(location.hash.startsWith('#case/')) history.replaceState(null,'','#projetos');};
+  document.getElementById('dlg-x').onclick=close;
+  dlg.addEventListener('cancel',e=>{e.preventDefault();close();});
+  dlg.addEventListener('click',e=>{if(e.target===dlg) close();});
+  addEventListener('hashchange',route); route();
+
+  // destaque do menu
+  const links=[...document.querySelectorAll('nav .l a')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting) links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
+})();
+</script>
+</body>
+</html>
