@@ -1,7 +1,5 @@
 # Naomi Arakaki · Portfólio
 
----
-
 ## Estrutura da página
 
 | Seção | Âncora | Conteúdo |
